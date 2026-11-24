@@ -1,0 +1,31 @@
+[package]
+name = "google-workspace-admin"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+license = "MIT OR Apache-2.0"
+authors = ["DIYEPH"]
+description = "Async, pure-Rust SDK for Google Workspace Admin SDK (Directory API v1) with native Service Account Domain-Wide Delegation, automatic OAuth2 token refresh, and exponential backoff."
+homepage = "https://github.com/DIYEPH/google-workspace-admin-rs"
+repository = "https://github.com/DIYEPH/google-workspace-admin-rs"
+documentation = "https://docs.rs/google-workspace-admin"
+readme = "README.md"
+keywords = ["google", "workspace", "gsuite", "admin-sdk", "directory-api"]
+categories = ["api-bindings", "asynchronous", "web-programming::http-client"]
+exclude = [".github/", ".gitignore"]
+
+[dependencies]
+async-trait = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+jsonwebtoken = "9"
+rand = "0.8"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["sync", "time"] }
+urlencoding = "2"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+wiremock = "0.6"
