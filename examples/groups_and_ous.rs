@@ -7,10 +7,9 @@ use google_workspace_admin::{scopes, AdminClient};
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let key_file = std::env::var("GOOGLE_SERVICE_ACCOUNT_FILE")
         .unwrap_or_else(|_| "config/service-account.json".to_string());
-    let admin_email = std::env::var("GOOGLE_ADMIN_EMAIL")
-        .expect("set GOOGLE_ADMIN_EMAIL env var");
-    let domain = std::env::var("GOOGLE_WORKSPACE_DOMAIN")
-        .expect("set GOOGLE_WORKSPACE_DOMAIN env var");
+    let admin_email = std::env::var("GOOGLE_ADMIN_EMAIL").expect("set GOOGLE_ADMIN_EMAIL env var");
+    let domain =
+        std::env::var("GOOGLE_WORKSPACE_DOMAIN").expect("set GOOGLE_WORKSPACE_DOMAIN env var");
 
     let client = AdminClient::builder()
         .service_account_file(key_file)?
@@ -40,7 +39,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .groups()
             .add_member(&first_group.email, &AddMemberRequest::member(member_email))
             .await?;
-        println!("Added {} as {} to {}", member.email, member.role, first_group.email);
+        println!(
+            "Added {} as {} to {}",
+            member.email, member.role, first_group.email
+        );
     }
 
     Ok(())

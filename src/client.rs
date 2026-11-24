@@ -112,7 +112,8 @@ impl AdminClient {
 
         loop {
             let token = self.auth.access_token().await?;
-            let mut req: RequestBuilder = self.http.request(method.clone(), &url).bearer_auth(token);
+            let mut req: RequestBuilder =
+                self.http.request(method.clone(), &url).bearer_auth(token);
 
             if let Some(q) = query {
                 if !q.is_empty() {
@@ -225,7 +226,10 @@ impl AdminClientBuilder {
     pub fn build(self) -> Result<AdminClient> {
         let http = Client::builder()
             .timeout(self.timeout.unwrap_or_else(|| Duration::from_secs(30)))
-            .user_agent(concat!("google-workspace-admin-rs/", env!("CARGO_PKG_VERSION")))
+            .user_agent(concat!(
+                "google-workspace-admin-rs/",
+                env!("CARGO_PKG_VERSION")
+            ))
             .build()?;
 
         let auth: Arc<dyn TokenProvider> = if let Some(provider) = self.token_provider {
@@ -237,9 +241,7 @@ impl AdminClientBuilder {
                 )
             })?;
             let admin_email = self.admin_email.ok_or_else(|| {
-                AdminError::Config(
-                    "admin_email is required for Domain-Wide Delegation".to_string(),
-                )
+                AdminError::Config("admin_email is required for Domain-Wide Delegation".to_string())
             })?;
             let scopes_list = if self.scopes.is_empty() {
                 vec![scopes::USER.to_string()]

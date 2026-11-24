@@ -64,11 +64,7 @@ impl<'a> GroupsClient<'a> {
     }
 
     /// Add a member to a group.
-    pub async fn add_member(
-        &self,
-        group_key: &str,
-        request: &AddMemberRequest,
-    ) -> Result<Member> {
+    pub async fn add_member(&self, group_key: &str, request: &AddMemberRequest) -> Result<Member> {
         let path = format!("groups/{}/members", encode(group_key));
         self.client
             .request_json(Method::POST, &path, None, Some(request))

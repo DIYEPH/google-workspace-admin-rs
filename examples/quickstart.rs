@@ -15,10 +15,9 @@ use google_workspace_admin::{scopes, AdminClient};
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let key_file = std::env::var("GOOGLE_SERVICE_ACCOUNT_FILE")
         .unwrap_or_else(|_| "config/service-account.json".to_string());
-    let admin_email = std::env::var("GOOGLE_ADMIN_EMAIL")
-        .expect("set GOOGLE_ADMIN_EMAIL env var");
-    let domain = std::env::var("GOOGLE_WORKSPACE_DOMAIN")
-        .expect("set GOOGLE_WORKSPACE_DOMAIN env var");
+    let admin_email = std::env::var("GOOGLE_ADMIN_EMAIL").expect("set GOOGLE_ADMIN_EMAIL env var");
+    let domain =
+        std::env::var("GOOGLE_WORKSPACE_DOMAIN").expect("set GOOGLE_WORKSPACE_DOMAIN env var");
 
     let client = AdminClient::builder()
         .service_account_file(key_file)?
@@ -33,7 +32,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?;
     println!("Found {} users (showing up to 10):", users.len());
     for u in &users {
-        println!("  - {} (suspended={}, ou={})", u.primary_email, u.suspended, u.org_unit_path);
+        println!(
+            "  - {} (suspended={}, ou={})",
+            u.primary_email, u.suspended, u.org_unit_path
+        );
     }
 
     // 2. Create a test user
@@ -44,7 +46,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build();
 
     let created = client.users().create(&req).await?;
-    println!("Created {} with immutable id={}", created.primary_email, created.id);
+    println!(
+        "Created {} with immutable id={}",
+        created.primary_email, created.id
+    );
 
     // 3. Suspend -> Delete -> Undelete (using immutable id)
     client.users().suspend(&test_email, None).await?;

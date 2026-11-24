@@ -4,9 +4,7 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
 use std::time::Duration;
 
-use google_workspace_admin::models::{
-    AddMemberRequest, CreateUserRequest, ListUsersParams,
-};
+use google_workspace_admin::models::{AddMemberRequest, CreateUserRequest, ListUsersParams};
 use google_workspace_admin::{AdminClient, AdminError, RetryConfig};
 use serde_json::json;
 use wiremock::matchers::{header, method, path, query_param};
@@ -59,14 +57,10 @@ async fn test_user_crud_and_undelete_lifecycle() {
         .build()
         .unwrap();
 
-    let req = CreateUserRequest::builder(
-        "alice@nonprofit.org",
-        "Alice",
-        "Nguyen",
-        "StrongPass@2026!",
-    )
-    .org_unit_path("/Volunteers")
-    .build();
+    let req =
+        CreateUserRequest::builder("alice@nonprofit.org", "Alice", "Nguyen", "StrongPass@2026!")
+            .org_unit_path("/Volunteers")
+            .build();
 
     let created = client.users().create(&req).await.unwrap();
     assert_eq!(created.id, "112233445566778899001");
@@ -205,7 +199,11 @@ async fn test_typed_errors_and_groups() {
         .build()
         .unwrap();
 
-    let err = client.users().get("missing@nonprofit.org").await.unwrap_err();
+    let err = client
+        .users()
+        .get("missing@nonprofit.org")
+        .await
+        .unwrap_err();
     assert!(matches!(err, AdminError::NotFound(_)));
 
     let member = client

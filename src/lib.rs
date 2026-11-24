@@ -55,7 +55,8 @@ pub mod scopes {
     /// Full read/write access to groups and group memberships.
     pub const GROUP: &str = "https://www.googleapis.com/auth/admin.directory.group";
     /// Read-only access to groups.
-    pub const GROUP_READONLY: &str = "https://www.googleapis.com/auth/admin.directory.group.readonly";
+    pub const GROUP_READONLY: &str =
+        "https://www.googleapis.com/auth/admin.directory.group.readonly";
     /// Full read/write access to Organizational Units (OUs).
     pub const ORGUNIT: &str = "https://www.googleapis.com/auth/admin.directory.orgunit";
     /// Read-only access to Organizational Units.
